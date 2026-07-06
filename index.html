@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JFIF to JPEG Converter</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0f0f14;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+.container {
+  max-width: 720px;
+  width: 100%;
+}
+h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+  color: #fff;
+}
+.settings {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.setting-group label {
+  font-size: 0.8rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.setting-group input[type="range"] {
+  width: 160px;
+  accent-color: #6c5ce7;
+}
+.setting-group input[type="number"] {
+  width: 90px;
+  background: #1a1a24;
+  border: 1px solid #333;
+  color: #e0e0e0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.setting-group .val {
+  font-size: 0.8rem;
+  color: #bbb;
+  margin-left: 4px;
+}
+.dropzone {
+  border: 2px dashed #444;
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  margin-bottom: 24px;
+}
+.dropzone:hover, .dropzone.drag-over {
+  border-color: #6c5ce7;
+  background: rgba(108, 92, 231, 0.06);
+}
+.dropzone-icon {
+  font-size: 2.5rem;
+  margin-bottom: 8px;
+}
+.dropzone p { color: #888; font-size: 0.95rem; }
+.dropzone .hint { font-size: 0.8rem; color: #555; margin-top: 6px; }
+.queue {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.file-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #1a1a24;
+  border: 1px solid #2a2a36;
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+.file-card .thumbnail {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #111;
+  flex-shrink: 0;
+}
+.file-card .info {
+  flex: 1;
+  min-width: 0;
+}
+.file-card .name {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.file-card .meta {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 2px;
+}
+.file-card .status {
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.status.pending { background: #333; color: #999; }
+.status.processing { background: #2d2a4a; color: #a29bfe; }
+.status.done { background: #1a332a; color: #4caf84; }
+.status.error { background: #3d1a1a; color: #e06c6c; }
+.status .progress {
+  display: inline-block;
+  margin-right: 4px;
+  font-size: 0.7rem;
+}
+.file-card .actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.file-card button {
+  background: #2a2a36;
+  border: 1px solid #3a3a46;
+  color: #e0e0e0;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.15s;
+}
+.file-card button:hover { background: #3a3a46; }
+.file-card button:disabled { opacity: 0.4; cursor: not-allowed; }
+.file-card button.download-btn {
+  background: #6c5ce7;
+  border-color: #6c5ce7;
+  color: #fff;
+}
+.file-card button.download-btn:hover { background: #5a4bd6; }
+.batch { margin-top: 20px; display: flex; gap: 10px; justify-content: center; }
+.btn {
+  background: #6c5ce7;
+  border: none;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.15s, opacity 0.15s;
+}
+.btn:hover { background: #5a4bd6; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-secondary {
+  background: #2a2a36;
+  border: 1px solid #3a3a46;
+  color: #e0e0e0;
+}
+.btn-secondary:hover { background: #3a3a46; }
+.btn-danger { background: transparent; border: 1px solid #5a2a2a; color: #e06c6c; }
+.btn-danger:hover { background: #3d1a1a; }
+.empty { text-align: center; color: #555; padding: 32px; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>JFIF &rarr; JPEG Converter</h1>
+
+  <div class="settings">
+    <div class="setting-group">
+      <label>Quality <span class="val" id="qVal">85%</span></label>
+      <input type="range" id="quality" min="10" max="100" value="85" step="1">
+    </div>
+    <div class="setting-group">
+      <label>Max Width (px)</label>
+      <input type="number" id="maxWidth" min="1" placeholder="Original">
+    </div>
+    <div class="setting-group">
+      <label>Max Height (px)</label>
+      <input type="number" id="maxHeight" min="1" placeholder="Original">
+    </div>
+  </div>
+
+  <div class="dropzone" id="dropzone">
+    <div class="dropzone-icon">&#128196;</div>
+    <p>Drag & drop .jfif files here</p>
+    <p class="hint">or click to browse. Supports multiple files.</p>
+  </div>
+
+  <input type="file" id="fileInput" accept=".jfif,.jpg,.jpeg" multiple style="display:none">
+
+  <div class="queue" id="queue">
+    <div class="empty">No files added yet</div>
+  </div>
+
+  <div class="batch" id="batchActions" style="display:none">
+    <button class="btn" id="convertAllBtn">Convert All</button>
+    <button class="btn btn-secondary" id="downloadAllBtn" disabled>Download All as ZIP</button>
+    <button class="btn btn-danger" id="clearBtn">Clear All</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const queue = document.getElementById('queue');
+  const batchActions = document.getElementById('batchActions');
+  const convertAllBtn = document.getElementById('convertAllBtn');
+  const downloadAllBtn = document.getElementById('downloadAllBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const qualityInput = document.getElementById('quality');
+  const qVal = document.getElementById('qVal');
+  const maxWidthInput = document.getElementById('maxWidth');
+  const maxHeightInput = document.getElementById('maxHeight');
+
+  const files = [];
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  qualityInput.addEventListener('input', function () {
+    qVal.textContent = qualityInput.value + '%';
+  });
+
+  function updateBatchUI() {
+    const hasFiles = files.length > 0;
+    batchActions.style.display = hasFiles ? 'flex' : 'none';
+    if (!hasFiles) queue.innerHTML = '<div class="empty">No files added yet</div>';
+    const done = files.every(f => f.status === 'done');
+    convertAllBtn.disabled = files.every(f => f.status === 'done' || f.status === 'processing');
+    downloadAllBtn.disabled = !done || files.length === 0;
+  }
+
+  function renderQueue() {
+    if (files.length === 0) {
+      queue.innerHTML = '<div class="empty">No files added yet</div>';
+      updateBatchUI();
+      return;
+    }
+    queue.innerHTML = files.map(function (f, idx) {
+      var thumbSrc = f.thumbBlob ? URL.createObjectURL(f.thumbBlob) : '';
+      var statusClass = f.status;
+      var statusText = f.status === 'pending' ? 'Pending'
+        : f.status === 'processing' ? 'Processing\u2026'
+        : f.status === 'done' ? 'Converted'
+        : f.status === 'error' ? 'Error'
+        : 'Unknown';
+      var progressHtml = '';
+      if (f.status === 'processing' && f.progress) {
+        progressHtml = '<span class="progress">' + Math.round(f.progress) + '%</span>';
+      }
+      var actionHtml = '';
+      if (f.status === 'done') {
+        actionHtml = '<button class="download-btn" data-download="' + idx + '">Download</button>';
+      } else if (f.status === 'error') {
+        actionHtml = '<button data-retry="' + idx + '">Retry</button>';
+      } else {
+        actionHtml = '<button disabled>--</button>';
+      }
+      actionHtml += '<button data-remove="' + idx + '" style="font-size:1rem" title="Remove">&times;</button>';
+      return '<div class="file-card">' +
+        (thumbSrc ? '<img class="thumbnail" src="' + thumbSrc + '" alt="">' : '<div class="thumbnail"></div>') +
+        '<div class="info"><div class="name">' + escapeHtml(f.name) + '</div><div class="meta">' + formatBytes(f.size) + '</div></div>' +
+        '<span class="status ' + statusClass + '">' + progressHtml + statusText + '</span>' +
+        '<div class="actions">' + actionHtml + '</div>' +
+      '</div>';
+    }).join('');
+    updateBatchUI();
+  }
+
+  function escapeHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  function formatBytes(b) {
+    if (b < 1024) return b + ' B';
+    if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+    return (b / 1048576).toFixed(1) + ' MB';
+  }
+
+  function calcResize(imgWidth, imgHeight) {
+    var mw = parseInt(maxWidthInput.value, 10) || 0;
+    var mh = parseInt(maxHeightInput.value, 10) || 0;
+    var w = imgWidth;
+    var h = imgHeight;
+    if (mw > 0 && h > 0 && w > mw) { h = Math.round(h * (mw / w)); w = mw; }
+    if (mh > 0 && w > 0 && h > mh) { w = Math.round(w * (mh / h)); h = mh; }
+    return { width: w || 1, height: h || 1 };
+  }
+
+  function convertFile(file) {
+    return new Promise(function (resolve, reject) {
+      file.status = 'processing';
+      file.progress = 0;
+      renderQueue();
+
+      var reader = new FileReader();
+      reader.onprogress = function (e) { if (e.lengthComputable) { file.progress = clamp((e.loaded / e.total) * 100, 0, 99); renderQueue(); } };
+      reader.onload = function () {
+        file.progress = 50;
+        renderQueue();
+
+        var img = new Image();
+        img.onload = function () {
+          file.progress = 70;
+          renderQueue();
+          var size = calcResize(img.width, img.height);
+          var canvas = document.createElement('canvas');
+          canvas.width = size.width;
+          canvas.height = size.height;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, size.width, size.height);
+          file.progress = 85;
+          renderQueue();
+
+          canvas.toBlob(function (blob) {
+            file.output = blob;
+            file.outputName = file.name.replace(/\.jfif$/i, '.jpg').replace(/\.jpeg$/i, '.jpg').replace(/\.jpg$/i, '.jpg');
+            if (!/\.jpg$/i.test(file.outputName)) file.outputName += '.jpg';
+            file.thumbBlob = blob;
+            file.status = 'done';
+            file.progress = 100;
+            renderQueue();
+            resolve();
+          }, 'image/jpeg', parseFloat(qualityInput.value) / 100);
+        };
+        img.onerror = function () {
+          reject(new Error('Failed to decode image. The file may be corrupted.'));
+        };
+        img.src = reader.result;
+      };
+      reader.onerror = function () { reject(new Error('Failed to read file.')); };
+      reader.readAsDataURL(file.file);
+    });
+  }
+
+  function retryFile(idx) {
+    var f = files[idx];
+    f.status = 'pending';
+    f.progress = 0;
+    renderQueue();
+  }
+
+  function downloadBlob(blob, name) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  function downloadSingle(idx) {
+    var f = files[idx];
+    if (f.output) downloadBlob(f.output, f.outputName);
+  }
+
+  async function downloadAllZip() {
+    var doneFiles = files.filter(function (f) { return f.status === 'done' && f.output; });
+    if (doneFiles.length === 0) return;
+    var zip = new JSZip();
+    var names = {};
+    doneFiles.forEach(function (f) {
+      var name = f.outputName;
+      var base = name.replace(/\.jpg$/i, '');
+      var ext = '.jpg';
+      var n = name;
+      var c = 1;
+      while (names[n]) { n = base + ' (' + c + ')' + ext; c++; }
+      names[n] = true;
+      zip.file(n, f.output);
+    });
+    downloadAllBtn.textContent = 'Generating ZIP\u2026';
+    downloadAllBtn.disabled = true;
+    var blob = await zip.generateAsync({ type: 'blob' });
+    downloadBlob(blob, 'jfif-converted.zip');
+    downloadAllBtn.textContent = 'Download All as ZIP (' + doneFiles.length + ')';
+    updateBatchUI();
+  }
+
+  async function convertAll() {
+    for (var i = 0; i < files.length; i++) {
+      if (files[i].status === 'done' || files[i].status === 'processing') continue;
+      try {
+        await convertFile(files[i]);
+      } catch (e) {
+        files[i].status = 'error';
+        files[i].error = e.message;
+        renderQueue();
+      }
+    }
+    updateBatchUI();
+  }
+
+  function addFiles(fileList) {
+    Array.from(fileList).forEach(function (file) {
+      var ext = file.name.split('.').pop().toLowerCase();
+      if (ext !== 'jfif' && ext !== 'jpg' && ext !== 'jpeg') return;
+      if (files.some(function (f) { return f.file.name === file.name && f.file.size === file.size; })) return;
+      files.push({
+        file: file,
+        name: file.name,
+        size: file.size,
+        status: 'pending',
+        output: null,
+        outputName: null,
+        thumbBlob: null,
+        progress: 0,
+        error: null
+      });
+    });
+    renderQueue();
+  }
+
+  dropzone.addEventListener('dragover', function (e) { e.preventDefault(); dropzone.classList.add('drag-over'); });
+  dropzone.addEventListener('dragleave', function () { dropzone.classList.remove('drag-over'); });
+  dropzone.addEventListener('drop', function (e) { e.preventDefault(); dropzone.classList.remove('drag-over'); addFiles(e.dataTransfer.files); });
+  dropzone.addEventListener('click', function () { fileInput.click(); });
+  fileInput.addEventListener('change', function () { addFiles(fileInput.files); fileInput.value = ''; });
+
+  queue.addEventListener('click', function (e) {
+    var btn = e.target.closest('button');
+    if (!btn) return;
+    var idx = parseInt(btn.getAttribute('data-download') ?? btn.getAttribute('data-retry') ?? btn.getAttribute('data-remove'), 10);
+    if (btn.hasAttribute('data-download')) downloadSingle(idx);
+    else if (btn.hasAttribute('data-retry')) retryFile(idx);
+    else if (btn.hasAttribute('data-remove')) { files.splice(idx, 1); renderQueue(); }
+  });
+
+  convertAllBtn.addEventListener('click', convertAll);
+  downloadAllBtn.addEventListener('click', downloadAllZip);
+  clearBtn.addEventListener('click', function () { files.length = 0; renderQueue(); });
+
+  renderQueue();
+})();
+</script>
+</body>
+</html>
