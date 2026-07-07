@@ -261,6 +261,16 @@ body {
           <option value="20" selected>Normal</option>
         </select>
       </div>
+      <div class="setting-group">
+        <label>Sort</label>
+        <select id="pdfSort">
+          <option value="">--</option>
+          <option value="name-asc">Name A–Z</option>
+          <option value="name-desc">Name Z–A</option>
+          <option value="size-asc">Size ↓</option>
+          <option value="size-desc">Size ↑</option>
+        </select>
+      </div>
     </div>
 
     <div class="dropzone" id="pdfDropzone">
@@ -475,6 +485,7 @@ body {
     var dpiGroup = document.getElementById('pdfDPIGroup');
     var dpiInput = document.getElementById('pdfDPI');
     var marginSel = document.getElementById('pdfMargin');
+    var sortSel = document.getElementById('pdfSort');
     var generateBtn = document.getElementById('pdfGenerate');
     var clearBtn = document.getElementById('pdfClear');
 
@@ -677,6 +688,20 @@ body {
         reader.readAsDataURL(file);
       });
     }
+
+    function sortFiles(method) {
+      var sorted = files.slice();
+      if (method === 'name-asc') sorted.sort(function (a, b) { return a.name.toLowerCase().localeCompare(b.name.toLowerCase()); });
+      else if (method === 'name-desc') sorted.sort(function (a, b) { return b.name.toLowerCase().localeCompare(a.name.toLowerCase()); });
+      else if (method === 'size-asc') sorted.sort(function (a, b) { return a.size - b.size; });
+      else if (method === 'size-desc') sorted.sort(function (a, b) { return b.size - a.size; });
+      else return;
+      files = sorted;
+      render();
+      sortSel.value = '';
+    }
+
+    sortSel.addEventListener('change', function () { if (sortSel.value) sortFiles(sortSel.value); });
 
     bindDropzone(dropzone, input, addFiles);
 
