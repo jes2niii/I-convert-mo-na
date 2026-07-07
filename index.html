@@ -184,6 +184,11 @@ body {
         <div class="card-title">JPEG &rarr; PDF</div>
         <div class="card-desc">Combine .jpg files into a single PDF. Choose page size, orientation, and reorder pages.</div>
       </div>
+      <div class="menu-card" data-view="png-view">
+        <div class="card-icon">&#128396;</div>
+        <div class="card-title">PNG &rarr; JPEG</div>
+        <div class="card-desc">Convert .png files to JPEG. Handles transparency (fills white background), quality &amp; resize.</div>
+      </div>
     </div>
   </div>
 
@@ -285,6 +290,44 @@ body {
     <div class="batch" id="pdfBatch" style="display:none">
       <button class="btn" id="pdfGenerate">Generate PDF</button>
       <button class="btn btn-danger" id="pdfClear">Clear All</button>
+    </div>
+  </div>
+
+  <!-- ═══════ PNG → JPEG ═══════ -->
+  <div class="view" id="png-view">
+    <div class="tool-header">
+      <button class="back-btn" data-view="menu-view">&larr;</button>
+      <h1>PNG &rarr; JPEG</h1>
+    </div>
+
+    <div class="settings">
+      <div class="setting-group">
+        <label>Quality <span class="val" id="pngQVal">85%</span></label>
+        <input type="range" id="pngQuality" min="10" max="100" value="85" step="1">
+      </div>
+      <div class="setting-group">
+        <label>Max Width (px)</label>
+        <input type="number" id="pngMaxW" min="1" placeholder="Original">
+      </div>
+      <div class="setting-group">
+        <label>Max Height (px)</label>
+        <input type="number" id="pngMaxH" min="1" placeholder="Original">
+      </div>
+    </div>
+
+    <div class="dropzone" id="pngDropzone">
+      <div class="dropzone-icon">&#128196;</div>
+      <p>Drag &amp; drop .png files here</p>
+      <p class="hint">or click to browse. Supports multiple files.</p>
+    </div>
+    <input type="file" id="pngInput" accept=".png" multiple style="display:none">
+
+    <div class="queue" id="pngQueue"><div class="empty">No files added yet</div></div>
+
+    <div class="batch" id="pngBatch" style="display:none">
+      <button class="btn" id="pngConvertAll">Convert All</button>
+      <button class="btn btn-secondary" id="pngDownloadAll" disabled>Download All as ZIP</button>
+      <button class="btn btn-danger" id="pngClear">Clear All</button>
     </div>
   </div>
 
@@ -714,6 +757,143 @@ body {
     });
 
     generateBtn.addEventListener('click', generatePDF);
+    clearBtn.addEventListener('click', function () { files.length = 0; render(); });
+    render();
+  })();
+
+  /* ════════════════════════════════════════
+     PNG → JPEG
+     ════════════════════════════════════════ */
+  (function () {
+    var dropzone = document.getElementById('pngDropzone');
+    var input = document.getElementById('pngInput');
+    var queue = document.getElementById('pngQueue');
+    var batchEl = document.getElementById('pngBatch');
+    var qInput = document.getElementById('pngQuality');
+    var qVal = document.getElementById('pngQVal');
+    var mwInput = document.getElementById('pngMaxW');
+    var mhInput = document.getElementById('pngMaxH');
+    var convertAllBtn = document.getElementById('pngConvertAll');
+    var downloadAllBtn = document.getElementById('pngDownloadAll');
+    var clearBtn = document.getElementById('pngClear');
+
+    var files = [];
+
+    qInput.addEventListener('input', function () { qVal.textContent = qInput.value + '%'; });
+
+    function updateUI() {
+      if (files.length === 0) { batchEl.style.display = 'none'; queue.innerHTML = '<div class="empty">No files added yet</div>'; return; }
+      batchEl.style.display = 'flex';
+      var done = files.every(function (f) { return f.status === 'done'; });
+      convertAllBtn.disabled = files.every(function (f) { return f.status === 'done' || f.status === 'processing'; });
+      downloadAllBtn.disabled = !done || files.length === 0;
+      downloadAllBtn.textContent = 'Download All as ZIP (' + files.filter(function (f) { return f.status === 'done'; }).length + ')';
+    }
+
+    function render() {
+      if (files.length === 0) { updateUI(); return; }
+      queue.innerHTML = files.map(function (f, idx) {
+        var thumb = f.thumbBlob ? URL.createObjectURL(f.thumbBlob) : '';
+        var cls = f.status;
+        var st = f.status === 'pending' ? 'Pending' : f.status === 'processing' ? 'Processing\u2026' : f.status === 'done' ? 'Converted' : f.status === 'error' ? 'Error' : '';
+        var prog = f.status === 'processing' && f.progress ? '<span class="progress">' + Math.round(f.progress) + '%</span>' : '';
+        var act = '';
+        if (f.status === 'done') act = '<button class="download-btn" data-pdl="' + idx + '">Download</button>';
+        else if (f.status === 'error') act = '<button data-prt="' + idx + '">Retry</button>';
+        else act = '<button disabled>--</button>';
+        act += '<button data-prm="' + idx + '" title="Remove">&times;</button>';
+        return '<div class="file-card">' +
+          (thumb ? '<img class="thumbnail" src="' + thumb + '" alt="">' : '<div class="thumbnail"></div>') +
+          '<div class="info"><div class="name">' + escapeHtml(f.name) + '</div><div class="meta">' + formatBytes(f.size) + '</div></div>' +
+          '<span class="status ' + cls + '">' + prog + st + '</span>' +
+          '<div class="actions">' + act + '</div>' +
+        '</div>';
+      }).join('');
+      updateUI();
+    }
+
+    function calcResize(iw, ih) {
+      var mw = parseInt(mwInput.value, 10) || 0;
+      var mh = parseInt(mhInput.value, 10) || 0;
+      var w = iw, h = ih;
+      if (mw > 0 && h > 0 && w > mw) { h = Math.round(h * (mw / w)); w = mw; }
+      if (mh > 0 && w > 0 && h > mh) { w = Math.round(w * (mh / h)); h = mh; }
+      return { width: w || 1, height: h || 1 };
+    }
+
+    function convertOne(f) {
+      return new Promise(function (resolve, reject) {
+        f.status = 'processing'; f.progress = 0; render();
+        var reader = new FileReader();
+        reader.onprogress = function (e) { if (e.lengthComputable) { f.progress = clamp(e.loaded / e.total * 100, 0, 99); render(); } };
+        reader.onload = function () {
+          f.progress = 50; render();
+          var img = new Image();
+          img.onload = function () {
+            f.progress = 70; render();
+            var size = calcResize(img.width, img.height);
+            var c = document.createElement('canvas'); c.width = size.width; c.height = size.height;
+            var ctx = c.getContext('2d');
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, size.width, size.height);
+            ctx.drawImage(img, 0, 0, size.width, size.height);
+            f.progress = 85; render();
+            c.toBlob(function (blob) {
+              f.output = blob;
+              f.outputName = f.name.replace(/\.png$/i, '.jpg');
+              if (!/\.jpg$/i.test(f.outputName)) f.outputName += '.jpg';
+              f.thumbBlob = blob;
+              f.status = 'done'; f.progress = 100; render(); resolve();
+            }, 'image/jpeg', parseFloat(qInput.value) / 100);
+          };
+          img.onerror = function () { reject(new Error('Failed to decode')); };
+          img.src = reader.result;
+        };
+        reader.onerror = function () { reject(new Error('Failed to read file')); };
+        reader.readAsDataURL(f.file);
+      });
+    }
+
+    async function convertAll() {
+      for (var i = 0; i < files.length; i++) {
+        if (files[i].status === 'done' || files[i].status === 'processing') continue;
+        try { await convertOne(files[i]); } catch (e) { files[i].status = 'error'; files[i].error = e.message; render(); }
+      }
+    }
+
+    async function downloadZip() {
+      var done = files.filter(function (f) { return f.status === 'done' && f.output; });
+      if (!done.length) return;
+      downloadAllBtn.textContent = 'Generating ZIP\u2026'; downloadAllBtn.disabled = true;
+      var zip = new JSZip();
+      var names = {};
+      done.forEach(function (f) { var n = f.outputName, base = n.replace(/\.jpg$/i, ''), c = 1; while (names[n]) { n = base + ' (' + (c++) + ').jpg'; } names[n] = true; zip.file(n, f.output); });
+      var blob = await zip.generateAsync({ type: 'blob' });
+      downloadBlob(blob, 'png-converted.zip'); render();
+    }
+
+    function addFiles(fileList) {
+      Array.from(fileList).forEach(function (file) {
+        var ext = file.name.split('.').pop().toLowerCase();
+        if (ext !== 'png') return;
+        if (files.some(function (f) { return f.file.name === file.name && f.file.size === file.size; })) return;
+        files.push({ file: file, name: file.name, size: file.size, status: 'pending', output: null, outputName: null, thumbBlob: null, progress: 0, error: null });
+      });
+      render();
+    }
+
+    bindDropzone(dropzone, input, addFiles);
+
+    queue.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      var idx = parseInt(b.getAttribute('data-pdl') || b.getAttribute('data-prt') || b.getAttribute('data-prm'), 10);
+      if (b.hasAttribute('data-pdl')) { var f = files[idx]; if (f.output) downloadBlob(f.output, f.outputName); }
+      else if (b.hasAttribute('data-prt')) { files[idx].status = 'pending'; files[idx].progress = 0; render(); }
+      else if (b.hasAttribute('data-prm')) { files.splice(idx, 1); render(); }
+    });
+
+    convertAllBtn.addEventListener('click', convertAll);
+    downloadAllBtn.addEventListener('click', downloadZip);
     clearBtn.addEventListener('click', function () { files.length = 0; render(); });
     render();
   })();
