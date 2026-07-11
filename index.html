@@ -379,7 +379,6 @@ body {
   gap: 4px;
 }
 .page-tile .page-actions button svg { width: 12px; height: 12px; fill: currentColor; }
-}
 .page-tile .page-actions button:hover { background: #3a3a46; }
 .page-tile .page-actions button.danger { color: #e06c6c; border-color: #5a2a2a; }
 .page-tile .page-actions button.danger:hover { background: #3d1a1a; }
@@ -1901,7 +1900,7 @@ body {
         return '<div class="page-tile' + (p.selected ? ' selected' : '') + (p.deleted ? ' deleted' : '') + '" data-ppidx="' + p.index + '">' +
           '<span class="drag-handle" title="Drag to reorder"><svg viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg></span>' +
           canvasHtml +
-          '<div class="page-num' + movedCls + '">Page ' + (p.originalIndex + 1) + (p.deleted ? ' (deleted)' : '') + (p.rotation ? ' \21BB' + p.rotation : '') + '</div>' +
+          '<div class="page-num' + movedCls + '">Page ' + (p.originalIndex + 1) + (p.deleted ? ' (deleted)' : '') + (p.rotation ? ' \u21BB' + p.rotation : '') + '</div>' +
           '<div class="page-actions">' +
             '<button data-pprot="' + p.index + '" title="Rotate 90\u00b0" ' + (p.deleted ? 'disabled' : '') + '><svg viewBox="0 0 24 24"><path d="M12 6V4l-4 4 4 4V8c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0 0 20 14c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 9.74A7.93 7.93 0 0 0 4 14c0 4.42 3.58 8 8 8v-2z"/></svg></button>' +
             '<button data-ppdel="' + p.index + '" title="Toggle delete" class="' + (p.deleted ? 'danger' : '') + '">' + (p.deleted ? '<svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v-2z"/></svg> Restore' : '<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg> Delete') + '</button>' +
