@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -28,7 +28,7 @@ body {
 .view { display: none; }
 .view.active { display: block; }
 
-/* ── Menu ── */
+/* â”€â”€ Menu â”€â”€ */
 .menu-title {
   font-size: 1.6rem; font-weight: 600; margin-bottom: 32px; text-align: center; color: #fff;
 }
@@ -81,7 +81,7 @@ body {
 .menu-card .card-badge.cat-pdf   { background: #3a1f1f; color: #e07c7c; }
 .menu-card .card-badge.cat-utils { background: #2a2a4a; color: #a29bfe; }
 
-/* ── Tool Header ── */
+/* â”€â”€ Tool Header â”€â”€ */
 .tool-header {
   display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
 }
@@ -107,7 +107,7 @@ body {
 .tool-header-cat.cat-pdf   { background: #3a1f1f; color: #e07c7c; }
 .tool-header-cat.cat-utils { background: #2a2a4a; color: #a29bfe; }
 
-/* ── Settings ── */
+/* â”€â”€ Settings â”€â”€ */
 .settings {
   display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; align-items: flex-end;
 }
@@ -129,7 +129,7 @@ body {
 .setting-group select:focus { outline: none; border-color: #6c5ce7; }
 .setting-group .val { font-size: 0.8rem; color: #bbb; margin-left: 4px; }
 
-/* ── Dropzone ── */
+/* â”€â”€ Dropzone â”€â”€ */
 .dropzone {
   border: 2px dashed #444; border-radius: 12px; padding: 48px 24px;
   text-align: center; cursor: pointer;
@@ -159,7 +159,7 @@ body {
   letter-spacing: 0.3px;
 }
 
-/* ── Queue & Cards ── */
+/* â”€â”€ Queue & Cards â”€â”€ */
 .queue { display: flex; flex-direction: column; gap: 8px; }
 .file-card {
   display: flex; align-items: center; gap: 12px;
@@ -236,7 +236,7 @@ body {
 .overlay p { color: #ccc; font-size: 0.95rem; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Batch Progress Bar ── */
+/* â”€â”€ Batch Progress Bar â”€â”€ */
 .batch-progress {
   display: none;
   margin-bottom: 20px;
@@ -275,7 +275,7 @@ body {
   white-space: nowrap;
 }
 
-/* ── Color Palette ── */
+/* â”€â”€ Color Palette â”€â”€ */
 .palette-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -300,7 +300,7 @@ body {
   font-family: 'SF Mono', Consolas, monospace;
 }
 
-/* ── EXIF Table ── */
+/* â”€â”€ EXIF Table â”€â”€ */
 .exif-table {
   width: 100%;
   border-collapse: collapse;
@@ -327,7 +327,7 @@ body {
 .exif-table td { color: #e0e0e0; font-family: 'SF Mono', Consolas, monospace; }
 .exif-table tr:last-child th, .exif-table tr:last-child td { border-bottom: none; }
 
-/* ── Page Grid (PDF Pages) ── */
+/* â”€â”€ Page Grid (PDF Pages) â”€â”€ */
 .page-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -410,7 +410,7 @@ body {
 .page-tile.sortable-chosen { box-shadow: 0 0 0 2px #6c5ce7; }
 .page-tile.sortable-ghost { opacity: 0.4; background: #2a2a36; }
 
-/* ── Code/Text area for Base64, CSV, etc. ── */
+/* â”€â”€ Code/Text area for Base64, CSV, etc. â”€â”€ */
 .text-area {
   width: 100%;
   min-height: 220px;
@@ -444,7 +444,7 @@ body {
     <div class="bar-text"></div>
   </div>
 
-  <!-- ═══════ MENU ═══════ -->
+  <!-- â•â•â•â•â•â•â• MENU â•â•â•â•â•â•â• -->
   <div class="view active" id="menu-view">
     <div class="menu-title">File Converter</div>
     <div class="menu-cards">
@@ -499,7 +499,7 @@ body {
     </div>
   </div>
 
-  <!-- ═══════ Image Converter ═══════ -->
+  <!-- â•â•â•â•â•â•â• Image Converter â•â•â•â•â•â•â• -->
   <div class="view" id="image-view">
     <div class="tool-header">
       <button class="back-btn" data-view="menu-view"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
@@ -567,7 +567,7 @@ body {
     </div>
   </div>
 
-  <!-- ═══════ JPEG to PDF ═══════ -->
+  <!-- â•â•â•â•â•â•â• JPEG to PDF â•â•â•â•â•â•â• -->
   <div class="view" id="pdf-view">
     <div class="tool-header">
       <button class="back-btn" data-view="menu-view"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
@@ -608,10 +608,10 @@ body {
         <label>Sort</label>
         <select id="pdfSort">
           <option value="">--</option>
-          <option value="name-asc">Name A–Z</option>
-          <option value="name-desc">Name Z–A</option>
-          <option value="size-asc">Size ↓</option>
-          <option value="size-desc">Size ↑</option>
+          <option value="name-asc">Name Aâ€“Z</option>
+          <option value="name-desc">Name Zâ€“A</option>
+          <option value="size-asc">Size â†“</option>
+          <option value="size-desc">Size â†‘</option>
         </select>
       </div>
     </div>
@@ -636,7 +636,7 @@ body {
     </div>
   </div>
 
-  <!-- ═══════ PDF Tools (Merge / Compress) ═══════ -->
+  <!-- â•â•â•â•â•â•â• PDF Tools (Merge / Compress) â•â•â•â•â•â•â• -->
   <div class="view" id="pdf-tools-view">
     <div class="tool-header">
       <button class="back-btn" data-view="menu-view"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
@@ -685,7 +685,7 @@ body {
     </div>
   </div>
 
-  <!-- ═══════ PDF to Image ═══════ -->
+  <!-- â•â•â•â•â•â•â• PDF to Image â•â•â•â•â•â•â• -->
   <div class="view" id="pdf2img-view">
     <div class="tool-header">
       <button class="back-btn" data-view="menu-view"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
@@ -743,7 +743,7 @@ body {
     </div>
   </div>
 
-  <!-- ═══════ Edit PDF Pages ═══════ -->
+  <!-- â•â•â•â•â•â•â• Edit PDF Pages â•â•â•â•â•â•â• -->
   <div class="view" id="pdf-pages-view">
     <div class="tool-header">
       <button class="back-btn" data-view="menu-view"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
@@ -788,7 +788,7 @@ body {
     </div>
   </div>
 
-  <!-- ═══════ Color Palette ═══════ -->
+  <!-- â•â•â•â•â•â•â• Color Palette â•â•â•â•â•â•â• -->
   <div class="view" id="palette-view">
     <div class="tool-header">
       <button class="back-btn" data-view="menu-view"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
@@ -836,7 +836,7 @@ body {
     </div>
   </div>
 
-  <!-- ═══════ EXIF & Privacy ═══════ -->
+  <!-- â•â•â•â•â•â•â• EXIF & Privacy â•â•â•â•â•â•â• -->
   <div class="view" id="exif-view">
     <div class="tool-header">
       <button class="back-btn" data-view="menu-view"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
@@ -868,7 +868,7 @@ body {
     </div>
   </div>
 
-  <!-- ═══════ Excel to PDF ═══════ -->
+  <!-- â•â•â•â•â•â•â• Excel to PDF â•â•â•â•â•â•â• -->
   <div class="view" id="excel2pdf-view">
     <div class="tool-header">
       <button class="back-btn" data-view="menu-view"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></button>
@@ -910,7 +910,7 @@ body {
 (function () {
   var jspdfLib = typeof window.jspdf !== 'undefined' ? window.jspdf.jsPDF : (typeof window.jsPDF !== 'undefined' ? window.jsPDF : null);
 
-  /* ── View switching ── */
+  /* â”€â”€ View switching â”€â”€ */
   function showView(name) {
     document.querySelectorAll('.view').forEach(function (v) { v.classList.remove('active'); });
     document.getElementById(name).classList.add('active');
@@ -927,7 +927,7 @@ body {
     if (card) showView(card.getAttribute('data-view'));
   });
 
-  /* ── Helpers ── */
+  /* â”€â”€ Helpers â”€â”€ */
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function escapeHtml(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
   function formatBytes(b) { if (b < 1024) return b + ' B'; if (b < 1048576) return (b / 1024).toFixed(1) + ' KB'; return (b / 1048576).toFixed(1) + ' MB'; }
@@ -960,7 +960,7 @@ body {
     bar.querySelector('.bar-fill').style.width = '0%';
   }
 
-  /* ── dropzone helpers ── */
+  /* â”€â”€ dropzone helpers â”€â”€ */
   function bindDropzone(dz, input, cb) {
     dz.addEventListener('dragover', function (e) { e.preventDefault(); dz.classList.add('drag-over'); });
     dz.addEventListener('dragleave', function () { dz.classList.remove('drag-over'); });
@@ -969,9 +969,9 @@ body {
     input.addEventListener('change', function () { cb(input.files); input.value = ''; });
   }
 
-  /* ════════════════════════════════════════
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      Image Converter (unified: JPG, PNG, WebP, JFIF, BMP, GIF, HEIC)
-     ════════════════════════════════════════ */
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   (function () {
     var dropzone = document.getElementById('imgDropzone');
     var input = document.getElementById('imgInput');
@@ -1161,9 +1161,9 @@ body {
     render();
   })();
 
-  /* ════════════════════════════════════════
-     JPEG → PDF
-     ════════════════════════════════════════ */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     JPEG â†’ PDF
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   (function () {
     var dropzone = document.getElementById('pdfDropzone');
     var input = document.getElementById('pdfInput');
@@ -1293,11 +1293,21 @@ body {
       try {
         for (var i = 0; i < files.length; i++) {
           var f = files[i];
-          if (!f.width || f.error) continue;
+          if (!f.width || f.error) {
+            console.warn('Skipping file (no dimensions or error):', f.name);
+            continue;
+          }
 
           if (!f.imageData) {
-            f.imageData = await loadImageData(f.file, f.objectUrl);
-            if (!f.imageData) continue;
+            try {
+              f.imageData = await loadImageData(f.file, f.objectUrl);
+            } catch (loadErr) {
+              console.error('Failed to load image data for', f.name, loadErr);
+            }
+            if (!f.imageData) {
+              console.warn('No image data for', f.name);
+              continue;
+            }
           }
 
           var pw, ph, orientation;
@@ -1341,88 +1351,141 @@ body {
           var x = (pw - drawW) / 2;
           var y = (ph - drawH) / 2;
 
-          // Detect image format for jsPDF (must match the encoded data)
+          // Detect image format (must match the encoded data).
+          // When the data was re-encoded (e.g., WebP -> PNG), the data is now PNG.
           var imgExt = f.name.split('.').pop().toLowerCase();
-          var imgFormat = (imgExt === 'png') ? 'PNG' : (imgExt === 'webp') ? 'WEBP' : 'JPEG';
-          doc.addImage(f.imageData, imgFormat, x, y, drawW, drawH);
+          var imgFormat = (imgExt === 'png') ? 'PNG' : (imgExt === 'webp') ? 'PNG' : 'JPEG';
+          try {
+            doc.addImage(f.imageData, imgFormat, x, y, drawW, drawH);
+          } catch (addErr) {
+            // If jsPDF rejects the raw bytes (uncommon: unsupported PNG variant, very large
+            // dimensions, etc.), re-encode the original file via canvas as JPEG and try again.
+            console.warn('addImage failed for', f.name, '- retrying as JPEG', addErr.message);
+            try {
+              var fallbackBytes = await reencodeViaCanvas(f.file, 'image/jpeg', 3000);
+              if (fallbackBytes) {
+                doc.addImage(fallbackBytes, 'JPEG', x, y, drawW, drawH);
+              } else {
+                throw new Error('addImage failed and fallback produced no data: ' + addErr.message);
+              }
+            } catch (retryErr) {
+              throw new Error('Failed to embed ' + f.name + ': ' + (retryErr.message || addErr.message));
+            }
+          }
           pageNum++;
           showBatchProgress(pageNum, files.length);
         }
 
         if (doc && pageNum > 0) {
           var outBlob = doc.output('blob');
+          if (!outBlob) throw new Error('PDF generation returned no data');
           downloadBlob(outBlob, 'images.pdf');
         } else {
-          alert('No valid images to include in PDF.');
+          alert('No valid images could be added to the PDF. Check the file formats and try again.');
         }
       } catch (e) {
-        alert('Error generating PDF: ' + e.message);
+        alert('Error generating PDF: ' + e.message + '\n\nIf the file is very large, try reducing the size or converting to JPEG first.');
       } finally {
         hideBatchProgress();
         hideOverlay();
       }
     }
 
-    function loadImageData(file, fallbackUrl) {
-      // Returns a Uint8Array (binary) of the image data, suitable for jsPDF.addImage.
-      // Avoids the "Array.join : Invalid string length" error that occurs when passing
-      // large base64 data URLs through jsPDF's PDF serialization.
-      return new Promise(function (resolve) {
-        var ext = (file && file.name ? file.name.split('.').pop() : '').toLowerCase();
-        var outMime = (ext === 'png') ? 'image/png'
-                    : (ext === 'webp') ? 'image/webp'
-                    : 'image/jpeg';
+    function readFileAsBytes(file) {
+      return new Promise(function (resolve, reject) {
+        var r = new FileReader();
+        r.onload = function () { resolve(new Uint8Array(r.result)); };
+        r.onerror = function () { reject(new Error('Failed to read file')); };
+        r.readAsArrayBuffer(file);
+      });
+    }
 
-        function arrayBufferFromBlob(blob) {
-          return new Promise(function (res, rej) {
-            var r = new FileReader();
-            r.onload = function () { res(new Uint8Array(r.result)); };
-            r.onerror = function () { rej(new Error('Read failed')); };
-            r.readAsArrayBuffer(blob);
-          });
+    function reencodeViaCanvas(blob, targetMime, maxDim) {
+      // Load an image (any browser-supported format) into a canvas and re-encode it
+      // as a binary blob of the target MIME. Used for WebP and as a fallback.
+      return new Promise(function (resolve, reject) {
+        if (!blob || typeof blob.size !== 'number') {
+          reject(new Error('Invalid blob passed to reencodeViaCanvas'));
+          return;
         }
-
-        if (fallbackUrl) {
-          // File already in the queue with a preview object URL — re-encode via canvas
-          // to honor the user's chosen format (and downscale huge images).
-          var img = new Image(); img.onload = function () {
+        var url;
+        try {
+          url = URL.createObjectURL(blob);
+        } catch (urlErr) {
+          reject(new Error('createObjectURL failed: ' + urlErr.message));
+          return;
+        }
+        var img = new Image();
+        img.onload = function () {
+          try {
             var W = img.width, H = img.height;
-            var MAX = 4000;
-            if (W > MAX || H > MAX) { var s = Math.min(MAX / W, MAX / H); W = Math.round(W * s); H = Math.round(H * s); }
-            var c = document.createElement('canvas'); c.width = W; c.height = H;
+            var MAX = maxDim || 4000;
+            if (W > MAX || H > MAX) {
+              var s = Math.min(MAX / W, MAX / H);
+              W = Math.round(W * s);
+              H = Math.round(H * s);
+            }
+            var c = document.createElement('canvas');
+            c.width = W; c.height = H;
             var ctx = c.getContext('2d');
-            if (outMime === 'image/jpeg') {
+            // JPEG has no transparency; fill white so transparent areas don't go black
+            if (targetMime === 'image/jpeg') {
               ctx.fillStyle = '#fff';
               ctx.fillRect(0, 0, W, H);
             }
             ctx.drawImage(img, 0, 0, W, H);
-            var quality = (outMime === 'image/jpeg') ? 0.92 : undefined;
+            var quality = (targetMime === 'image/jpeg') ? 0.92 : undefined;
+            var done = function (blobOut) {
+              URL.revokeObjectURL(url);
+              if (!blobOut) { reject(new Error('Canvas re-encode produced no blob')); return; }
+              readFileAsBytes(blobOut).then(resolve).catch(reject);
+            };
             if (typeof c.toBlob === 'function') {
-              c.toBlob(function (blob) {
-                if (!blob) { resolve(null); return; }
-                arrayBufferFromBlob(blob).then(resolve).catch(function () { resolve(null); });
-              }, outMime, quality);
+              c.toBlob(done, targetMime, quality);
             } else {
-              // Old browsers fallback
+              // Legacy fallback
               try {
-                var dataUrl = c.toDataURL(outMime, quality);
+                var dataUrl = c.toDataURL(targetMime, quality);
                 var bin = atob(dataUrl.split(',')[1]);
                 var arr = new Uint8Array(bin.length);
                 for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+                URL.revokeObjectURL(url);
                 resolve(arr);
-              } catch (e) { resolve(null); }
+              } catch (e) { reject(e); }
             }
-          };
-          img.onerror = function () { resolve(null); };
-          img.src = fallbackUrl;
-          return;
-        }
-        // No preview yet — read the file directly as binary
-        var reader = new FileReader();
-        reader.onload = function () { resolve(new Uint8Array(reader.result)); };
-        reader.onerror = function () { resolve(null); };
-        reader.readAsArrayBuffer(file);
+          } catch (e) { URL.revokeObjectURL(url); reject(e); }
+        };
+        img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('Image decode failed')); };
+        img.src = url;
       });
+    }
+
+    function loadImageData(file, fallbackUrl) {
+      // Returns a Uint8Array (binary) of the image data, suitable for jsPDF.addImage.
+      // - For PNG and JPEG: returns the file's raw bytes for jsPDF to decode itself.
+      //   This is fast and preserves full quality (no canvas re-encoding).
+      // - For WebP: re-encodes via canvas to PNG (jsPDF doesn't support WebP natively).
+      // - On any error, returns null so the file is skipped gracefully.
+      var ext = (file && file.name ? file.name.split('.').pop() : '').toLowerCase();
+      var isWebP = (ext === 'webp');
+
+      return (async function () {
+        if (isWebP) {
+          try {
+            var webpBytes = await readFileAsBytes(file);
+            var blob = new Blob([webpBytes], { type: 'image/webp' });
+            return await reencodeViaCanvas(blob, 'image/png', 4000);
+          } catch (e) {
+            return null;
+          }
+        }
+        // PNG / JPEG: hand the raw bytes to jsPDF
+        try {
+          return await readFileAsBytes(file);
+        } catch (e) {
+          return null;
+        }
+      })();
     }
 
     function sortFiles(method) {
@@ -1454,9 +1517,9 @@ body {
     render();
   })();
 
-  /* ════════════════════════════════════════
-     PDF → Image
-     ════════════════════════════════════════ */
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     PDF â†’ Image
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   (function () {
     if (typeof pdfjsLib !== 'undefined') {
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -1710,9 +1773,9 @@ body {
     render();
   })();
 
-  /* ════════════════════════════════════════
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      PDF Tools (Merge / Compress)
-     ════════════════════════════════════════ */
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   (function () {
     if (typeof pdfjsLib !== 'undefined') {
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -1933,9 +1996,9 @@ body {
     render();
   })();
 
-  /* ════════════════════════════════════════
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      Edit PDF Pages (split / extract / rotate / delete)
-     ════════════════════════════════════════ */
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   (function () {
     if (typeof pdfjsLib !== 'undefined') {
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -2158,9 +2221,9 @@ body {
     render();
   })();
 
-  /* ════════════════════════════════════════
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      Color Palette
-     ════════════════════════════════════════ */
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   (function () {
     var dropzone = document.getElementById('palDropzone');
     var input = document.getElementById('palInput');
@@ -2267,9 +2330,9 @@ body {
     });
   })();
 
-  /* ════════════════════════════════════════
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
      EXIF & Privacy
-     ════════════════════════════════════════ */
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   (function () {
     var dropzone = document.getElementById('exifDropzone');
     var input = document.getElementById('exifInput');
@@ -2375,10 +2438,10 @@ body {
     clearBtn.addEventListener('click', clearAll);
   })();
 
-  /* ════════════════════════════════════════
-     Excel to PDF (XLSX / XLS / CSV → PDF)
+  /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     Excel to PDF (XLSX / XLS / CSV â†’ PDF)
      Approach: HTML snapshot via html2canvas
-     ════════════════════════════════════════ */
+     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
   (function () {
     if (typeof XlsxPopulate === 'undefined') {
       console.warn('xlsx-populate library not loaded; Excel to PDF tool will not work.');
@@ -2547,7 +2610,7 @@ body {
       render();
     }
 
-    // ─── Color helpers ──────────────────────────────────────────────
+    // â”€â”€â”€ Color helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     var THEME_PALETTE = {
       0: [255, 255, 255], 1: [0, 0, 0], 2: [238, 236, 225], 3: [31, 73, 125],
       4: [79, 129, 189], 5: [192, 80, 77], 6: [128, 100, 162], 7: [147, 169, 207],
@@ -2622,7 +2685,7 @@ body {
       } catch (e) { return ''; }
     }
 
-    // ─── Build styled HTML for a single sheet ────────────────────────
+    // â”€â”€â”€ Build styled HTML for a single sheet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function buildSheetHtml(workbook, sheetName) {
       var sheet = workbook.sheet(sheetName);
       if (!sheet) return { html: '', width: 0, height: 0 };
@@ -2780,7 +2843,7 @@ body {
       return { html: html, width: totalW, height: totalH };
     }
 
-    // ─── Render HTML → canvas ───────────────────────────────────────
+    // â”€â”€â”€ Render HTML â†’ canvas â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function htmlToCanvas(html) {
       return new Promise(function (resolve, reject) {
         renderHost.innerHTML = '<div style="display:inline-block; padding:0; margin:0; background:#fff;">' + html + '</div>';
@@ -2822,7 +2885,7 @@ body {
       return { w: w, h: h, orient: orient.indexOf('landscape') === 0 ? 'l' : 'p' };
     }
 
-    // ─── Convert one file ──────────────────────────────────────────
+    // â”€â”€â”€ Convert one file â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function convertOne(entry) {
       if (typeof XlsxPopulate === 'undefined') { alert('xlsx-populate not loaded.'); return Promise.reject(new Error('xlsx-populate not loaded')); }
       if (typeof html2canvas === 'undefined') { alert('html2canvas not loaded.'); return Promise.reject(new Error('html2canvas not loaded')); }
@@ -2868,7 +2931,7 @@ body {
           // Render to canvas
           var canvas = await htmlToCanvas(built.html);
 
-          // Embed in PDF — fit the rendered image to the printable area, preserving aspect ratio
+          // Embed in PDF â€” fit the rendered image to the printable area, preserving aspect ratio
           var availW = pageInfo.w - margins.left - margins.right;
           var availH = pageInfo.h - margins.top - margins.bottom;
 
@@ -2978,7 +3041,7 @@ body {
     render();
   })();
 
-  /* ── Hash-based view routing ── */
+  /* â”€â”€ Hash-based view routing â”€â”€ */
   var VIEW_HASH_MAP = {
     menu: 'menu-view',
     image: 'image-view',
